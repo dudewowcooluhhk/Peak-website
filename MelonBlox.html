@@ -1,0 +1,544 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MelonBlox</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Verdana, Arial, sans-serif;
+      background-color: #000;
+      color: #111;
+    }
+
+    .topbar {
+      background: linear-gradient(90deg, #ff4b4b 0%, #ff6a6a 50%, #59c149 100%);
+      color: white;
+      display: flex;
+      align-items: center;
+      padding: 8px 16px;
+      border-bottom: 3px solid #347c2c;
+    }
+
+    .logo {
+      font-weight: bold;
+      font-size: 22px;
+      margin-right: 24px;
+      color: white;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+    }
+
+    .topbar a {
+      color: white;
+      text-decoration: none;
+      margin: 0 10px;
+      font-size: 14px;
+    }
+
+    .topbar a:hover { opacity: 0.8; }
+
+    .topbar input[type="text"] {
+      margin-left: auto;
+      padding: 4px 8px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      outline: none;
+    }
+
+    .container, .signup-page, .login-page {
+      display: flex;
+      margin: 20px auto;
+      max-width: 1000px;
+      background-color: #f2f2f2;
+      border-radius: 6px;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.4);
+    }
+
+    .sidebar {
+      width: 200px;
+      background: #e6e6e6;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 10px;
+      margin-right: 20px;
+    }
+
+    .sidebar a {
+      display: block;
+      color: #333;
+      text-decoration: none;
+      padding: 6px;
+      font-size: 13px;
+      border-radius: 4px;
+    }
+
+    .sidebar a:hover { background-color: #dcdcdc; }
+
+    .upgrade {
+      background-color: #59c149;
+      color: white;
+      text-align: center;
+      padding: 8px;
+      border-radius: 4px;
+      margin-top: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .main, .signup-box, .login-box {
+      flex: 1;
+      background: #fff;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      padding: 20px;
+      color: #111;
+    }
+
+    .signup-box input, .signup-box select, .login-box input {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 8px;
+      border: 1px solid #aaa;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .signup-box button, .login-box button {
+      width: 100%;
+      background-color: #59c149;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .signup-box .login-link, .login-box .signup-link {
+      margin-top: 10px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .signup-box .login-link a, .login-box .signup-link a {
+      color: #59c149;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .avatar {
+      width: 100px;
+      height: 100px;
+      background-color: #ddd;
+      border: 1px solid #bbb;
+      border-radius: 4px;
+    }
+
+    .friends-list {
+      border: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 4px;
+      color: #555;
+      font-size: 14px;
+      background-color: #fafafa;
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="logo">MelonBlox</div>
+    <a href="#">Games</a>
+    <a href="#">Catalog</a>
+    <a href="#">Develop</a>
+    <a href="#">ROBUX</a>
+    <input type="text" placeholder="Search" />
+  </div>
+
+  <!-- Signup Page -->
+  <div class="signup-page" id="signupPage">
+    <div class="sidebar">
+      <strong>Welcome</strong>
+      <a href="#">Home</a>
+      <a href="#">Profile</a>
+      <a href="#">Friends</a>
+      <a href="#">Messages</a>
+      <a href="#">Groups</a>
+      <a href="#">Catalog</a>
+      <div class="upgrade">Upgrade Now</div>
+    </div>
+
+    <div class="signup-box">
+      <h2>Create your account</h2>
+      <input type="text" id="signupName" placeholder="Username" required>
+      <input type="password" id="signupPass" placeholder="Password" required>
+      <input type="password" id="signupPass2" placeholder="Confirm Password" required>
+      <div style="display:flex;gap:4px;">
+        <select id="month">
+          <option>Month</option>
+          <option>January</option>
+          <option>February</option>
+          <option>March</option>
+          <option>April</option>
+          <option>May</option>
+          <option>June</option>
+          <option>July</option>
+          <option>August</option>
+          <option>September</option>
+          <option>October</option>
+          <option>November</option>
+          <option>December</option>
+        </select>
+        <select id="day">
+          <option>Day</option>
+          ${Array.from({length:31},(_,i)=>`<option>${i+1}</option>`).join('')}
+        </select>
+        <select id="year">
+          <option>Year</option>
+          ${Array.from({length:18},(_,i)=>`<option>${2007-i}</option>`).join('')}
+        </select>
+      </div>
+      <button id="signupBtn">Sign Up</button>
+      <div class="login-link">Already have an account? <a href="#" id="goLogin">Log In</a></div>
+    </div>
+  </div>
+
+  <!-- Login Page -->
+  <div class="login-page" id="loginPage" style="display:none;">
+    <div class="sidebar">
+      <strong>Welcome Back</strong>
+      <a href="#">Home</a>
+      <a href="#">Profile</a>
+      <a href="#">Friends</a>
+      <a href="#">Messages</a>
+      <div class="upgrade">Upgrade Now</div>
+    </div>
+
+    <div class="login-box">
+      <h2>Log In</h2>
+      <input type="text" id="loginName" placeholder="Username" required>
+      <input type="password" id="loginPass" placeholder="Password" required>
+      <button id="loginBtn">Log In</button>
+      <div class="signup-link">Don't have an account? <a href="#" id="goSignup">Sign Up</a></div>
+    </div>
+  </div>
+
+  <!-- Home Page -->
+  <div class="container" id="homePage" style="display:none;">
+    <div class="sidebar">
+      <strong id="usernameDisplay">Nobodys</strong>
+      <a href="#">Home</a>
+      <a href="#">Profile</a>
+      <a href="#">Friends</a>
+      <a href="#">Messages</a>
+      <a href="#">Groups</a>
+      <div class="upgrade">Upgrade Now</div>
+    </div>
+
+    <div class="main">
+      <div class="header">
+        <div class="avatar"></div>
+        <div>
+          <h2>Hello, <span id="displayName">Nobodys</span>!</h2>
+          <div id="dobDisplay" style="color:#555;font-size:14px;">Joined: —</div>
+          <div style="color:#777;font-size:14px;">0 Friends</div>
+        </div>
+      </div>
+
+      <div class="friends">
+        <h3>FRIENDS (0)</h3>
+        <div class="friends-list">No friends yet.</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const signupPage = document.getElementById('signupPage');
+    const loginPage = document.getElementById('loginPage');
+    const homePage = document.getElementById('homePage');
+
+    const signupBtn = document.getElementById('signupBtn');
+    const goLogin = document.getElementById('goLogin');
+    const goSignup = document.getElementById('goSignup');
+    const loginBtn = document.getElementById('loginBtn');
+
+    let storedUser = null;
+
+    signupBtn.onclick = () => {
+      const name = document.getElementById('signupName').value.trim();
+      const pass = document.getElementById('signupPass').value;
+      const pass2 = document.getElementById('signupPass2').value;
+      const month = document.getElementById('month').value;
+      const day = document.getElementById('day').value;
+      const year = document.getElementById('year').value;
+
+      if (!name || !pass || pass !== pass2 || month==='Month' || day==='Day' || year==='Year') {
+        alert('Please complete all fields correctly.');
+        return;
+      }
+
+      storedUser = { name, pass, dob: `${month} ${day}, ${year}` };
+
+      document.getElementById('displayName').innerText = name;
+      document.getElementById('usernameDisplay').innerText = name;
+      document.getElementById('dobDisplay').innerText = `Joined: ${month} ${day}, ${year}`;
+
+      signupPage.style.display = 'none';
+      homePage.style.display = 'flex';
+    };
+
+    goLogin.onclick = (e) => {
+      e.preventDefault();
+      signupPage.style.display = 'none';
+      loginPage.style.display = 'flex';
+    };
+
+    goSignup.onclick = (e) => {
+      e.preventDefault();
+      loginPage.style.display = 'none';
+      signupPage.style.display = 'flex';
+    };
+
+    loginBtn.onclick = () => {
+      const name = document.getElementById('loginName').value.trim();
+      const pass = document.getElementById('loginPass').value;
+
+      if (storedUser && name === storedUser.name && pass === storedUser.pass) {
+        document.getElementById('displayName').innerText = storedUser.name;
+        document.getElementById('usernameDisplay').innerText = storedUser.name;
+        document.getElementById('dobDisplay').innerText = `Joined: ${storedUser.dob}`;
+
+        loginPage.style.display = 'none';
+        homePage.style.display = 'flex';
+      } else {
+        alert('Incorrect username or password.');
+      }
+    };
+
+    // Games page logic
+    const topGamesLink = document.querySelector('.topbar a'); // first link is Games
+    const originalLinks = document.querySelectorAll('.topbar a');
+
+    // create games page element
+    const gamesPage = document.createElement('div');
+    gamesPage.className = 'container';
+    gamesPage.style.display = 'none';
+    gamesPage.innerHTML = `
+      <div class="sidebar">
+        <strong>Games</strong>
+        <a href="#" id="backHome">Back</a>
+        <a href="#">Popular</a>
+        <a href="#">Top Rated</a>
+        <div class="upgrade">Play</div>
+      </div>
+      <div class="main">
+        <h2>Natural Disaster Survival</h2>
+        <div style="display:flex;gap:12px;align-items:center;margin-top:12px;">
+          <div style="width:220px;height:140px;background:#ddd;border:1px solid #ccc;display:flex;align-items:center;justify-content:center;">Thumbnail</div>
+          <div>
+            <div style="font-weight:bold">Natural Disaster Survival</div>
+            <div style="color:#666;margin-top:6px">by ClassicDev</div>
+            <div style="color:#666;margin-top:6px">Visitors: 1,234,567</div>
+            <p style="color:#444;margin-top:8px">Survive waves, earthquakes, meteors and more. Classic Roblox survival game.</p>
+            <button id="openGameBtn" style="margin-top:8px;padding:10px 16px;background:#59c149;color:white;border:none;border-radius:4px;cursor:pointer;font-weight:bold">Play</button>
+          </div>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(gamesPage);
+
+    // wire the Games nav link (the link with text 'Games')
+    document.querySelectorAll('.topbar a').forEach(a=>{
+      if (a.textContent.trim()==='Games') a.onclick = (e)=>{ e.preventDefault(); showGames(); };
+    });
+
+    document.getElementById('backHome').onclick = (e)=>{ e.preventDefault(); hideGames(); };
+
+    function showGames(){
+      signupPage.style.display='none';
+      loginPage.style.display='none';
+      homePage.style.display='none';
+      gamesPage.style.display='flex';
+    }
+    function hideGames(){
+      gamesPage.style.display='none';
+      homePage.style.display='flex';
+    }
+
+    // Game play overlay (canvas)
+    const gameOverlay = document.createElement('div');
+    gameOverlay.style.position='fixed';gameOverlay.style.inset=0;gameOverlay.style.background='#000';gameOverlay.style.display='none';gameOverlay.style.zIndex=9999;gameOverlay.style.alignItems='stretch';gameOverlay.style.justifyContent='center';
+
+    const gameCanvas = document.createElement('canvas');
+    gameCanvas.width = window.innerWidth; gameCanvas.height = window.innerHeight;
+    gameCanvas.style.display='block';
+    gameOverlay.appendChild(gameCanvas);
+
+    const hud = document.createElement('div');
+    hud.style.position='absolute';hud.style.top='12px';hud.style.left='12px';hud.style.color='white';hud.style.fontFamily='Verdana, Arial';hud.style.zIndex=10000;
+    hud.innerHTML = `<div style="background:rgba(0,0,0,0.5);padding:6px 10px;border-radius:6px">Press WASD to move • Click to lock mouse • Esc to exit</div>`;
+    gameOverlay.appendChild(hud);
+
+    document.body.appendChild(gameOverlay);
+
+    document.getElementById('openGameBtn').onclick = ()=>{
+      // show overlay then init game
+      gamesPage.style.display='none';
+      gameOverlay.style.display='flex';
+      gameCanvas.width = window.innerWidth; gameCanvas.height = window.innerHeight;
+      startGame(gameCanvas, gameOverlay);
+    };
+
+    // Simple 3D-like third-person map with mouse-look and WASD
+    function startGame(canvas, overlay){
+      const ctx = canvas.getContext('2d');
+      let running = true;
+
+      // Map: 2D grid 20x20, 0 = floor, 1 = wall
+      const MAP_W = 20, MAP_H = 20, TILE = 48;
+      const map = [];
+      for(let y=0;y<MAP_H;y++){
+        map[y]=[];
+        for(let x=0;x<MAP_W;x++){
+          if(x===0||y===0||x===MAP_W-1||y===MAP_H-1) map[y][x]=1; // border
+          else map[y][x]=0;
+        }
+      }
+      // add some obstacles
+      for(let i=0;i<40;i++){
+        const rx = 2+Math.floor(Math.random()*(MAP_W-4));
+        const ry = 2+Math.floor(Math.random()*(MAP_H-4));
+        map[ry][rx]=1;
+      }
+
+      // player
+      const player = { x: MAP_W/2 * TILE, y: MAP_H/2 * TILE, angle:0, speed:0.0 };
+      const keys = {w:false,a:false,s:false,d:false};
+
+      // pointer lock for mouse
+      canvas.requestPointerLock = canvas.requestPointerLock || canvas.mozRequestPointerLock;
+      document.exitPointerLock = document.exitPointerLock || document.mozExitPointerLock;
+
+      canvas.onclick = () => {
+        canvas.requestPointerLock();
+      };
+
+      function onMouseMove(e){
+        if(document.pointerLockElement === canvas || document.mozPointerLockElement === canvas){
+          const movementX = e.movementX || e.mozMovementX || 0;
+          player.angle += movementX * 0.0025;
+        } else {
+          // optional: rotate toward mouse position
+        }
+      }
+      document.addEventListener('mousemove', onMouseMove);
+
+      document.addEventListener('pointerlockchange', ()=>{
+        if(document.pointerLockElement !== canvas){ /* unlocked */ }
+      });
+
+      window.addEventListener('keydown', (e)=>{
+        if(e.key==='w'||e.key==='W') keys.w=true;
+        if(e.key==='s'||e.key==='S') keys.s=true;
+        if(e.key==='a'||e.key==='A') keys.a=true;
+        if(e.key==='d'||e.key==='D') keys.d=true;
+        if(e.key==='Escape'){
+          // exit game
+          running=false; overlay.style.display='none';
+          document.removeEventListener('mousemove', onMouseMove);
+          // return to games page
+          gamesPage.style.display='flex';
+        }
+      });
+      window.addEventListener('keyup', (e)=>{
+        if(e.key==='w'||e.key==='W') keys.w=false;
+        if(e.key==='s'||e.key==='S') keys.s=false;
+        if(e.key==='a'||e.key==='A') keys.a=false;
+        if(e.key==='d'||e.key==='D') keys.d=false;
+      });
+
+      function collide(nx, ny){
+        const tx = Math.floor(nx / TILE);
+        const ty = Math.floor(ny / TILE);
+        if(map[ty] && map[ty][tx]===1) return true;
+        return false;
+      }
+
+      function gameLoop(){
+        if(!running) return;
+        // update
+        const moveSpeed = 2.2;
+        let dx=0, dy=0;
+        if(keys.w){ dx += Math.cos(player.angle)*moveSpeed; dy += Math.sin(player.angle)*moveSpeed; }
+        if(keys.s){ dx -= Math.cos(player.angle)*moveSpeed; dy -= Math.sin(player.angle)*moveSpeed; }
+        if(keys.a){ dx += Math.cos(player.angle - Math.PI/2)*moveSpeed; dy += Math.sin(player.angle - Math.PI/2)*moveSpeed; }
+        if(keys.d){ dx += Math.cos(player.angle + Math.PI/2)*moveSpeed; dy += Math.sin(player.angle + Math.PI/2)*moveSpeed; }
+
+        const nx = player.x + dx;
+        const ny = player.y + dy;
+        if(!collide(nx, player.y)) player.x = nx;
+        if(!collide(player.x, ny)) player.y = ny;
+
+        // draw top-down map
+        ctx.fillStyle='#87ceeb'; ctx.fillRect(0,0,canvas.width,canvas.height); // sky-like
+        // center camera on player
+        const camX = player.x - canvas.width/2;
+        const camY = player.y - canvas.height/2;
+
+        // draw grid
+        for(let y=0;y<MAP_H;y++){
+          for(let x=0;x<MAP_W;x++){
+            const screenX = x*TILE - camX;
+            const screenY = y*TILE - camY;
+            if(map[y][x]===1){ ctx.fillStyle='#8b5a2b'; ctx.fillRect(screenX, screenY, TILE, TILE); }
+            else { ctx.fillStyle='#7ec850'; ctx.fillRect(screenX, screenY, TILE, TILE); }
+            // tile border
+            ctx.strokeStyle='rgba(0,0,0,0.12)'; ctx.strokeRect(screenX, screenY, TILE, TILE);
+          }
+        }
+
+        // draw player as 3D-like box (a rectangle with a direction triangle)
+        const px = canvas.width/2; const py = canvas.height/2;
+        // shadow
+        ctx.fillStyle='rgba(0,0,0,0.25)'; ctx.fillRect(px-18, py+22,36,8);
+        // body
+        ctx.fillStyle='#ffffff'; ctx.fillRect(px-12, py-18,24,36);
+        ctx.fillStyle='#000'; ctx.fillRect(px-10, py-10,20,20);
+        // head
+        ctx.fillStyle='#ffcc99'; ctx.fillRect(px-12, py-34,24,16);
+        // direction
+        ctx.beginPath(); ctx.moveTo(px,py); ctx.lineTo(px + Math.cos(player.angle)*22, py + Math.sin(player.angle)*22); ctx.strokeStyle='#ff0'; ctx.lineWidth=3; ctx.stroke();
+
+        // mini-map
+        const miniSize = 160;
+        const miniX = canvas.width - miniSize - 16; const miniY = 16;
+        ctx.fillStyle='rgba(0,0,0,0.6)'; ctx.fillRect(miniX-6, miniY-6, miniSize+12, miniSize+12);
+        ctx.fillStyle='#222'; ctx.fillRect(miniX, miniY, miniSize, miniSize);
+        const scale = miniSize / (MAP_W * TILE);
+        // draw map small
+        for(let y=0;y<MAP_H;y++){
+          for(let x=0;x<MAP_W;x++){
+            if(map[y][x]===1) ctx.fillStyle='#8b5a2b'; else ctx.fillStyle='#7ec850';
+            ctx.fillRect(miniX + x*TILE*scale, miniY + y*TILE*scale, TILE*scale, TILE*scale);
+          }
+        }
+        // player marker
+        ctx.fillStyle='red'; ctx.beginPath(); ctx.arc(miniX + (player.x/TILE)*scale*TILE, miniY + (player.y/TILE)*scale*TILE, 4,0,Math.PI*2); ctx.fill();
+
+        requestAnimationFrame(gameLoop);
+      }
+
+      requestAnimationFrame(gameLoop);
+    }
+  </script>
+</body>
+</html>
